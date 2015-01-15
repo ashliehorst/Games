@@ -1,0 +1,67 @@
+<!DOCTYPE html><html><head><title>Game Dev Tutorial</title>
+<style type="text/css">
+    canvas { position:absolute; top:0; left:0; width:100%; height:100%; z-index:-1; }
+    img { display: none; }
+</style>
+<script type="text/javascript" src="vector.js"></script>
+<script type="text/javascript" src="box.js"></script>
+<script type="text/javascript">
+    
+    function main()
+    {
+        // Get the canvas object and a 2D context
+        var canvas = document.getElementById("gameCanvas");
+        var context = canvas.getContext("2d");
+
+        // This will happen when the browser is resized
+        window.onresize = function()
+        {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            context.restore();
+            context.save();
+            context.translate(0, canvas.height);
+            context.scale(1, -1);
+        }
+        window.onresize();
+
+        // Clears the draw buffer with a given color
+        function clearCanvas(r, g, b)
+        {
+            context.fillStyle = "rgb("+r+","+g+","+b+")";
+            context.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Some key codes for us to use
+        var KEY_LEFT  = 37; var KEY_RIGHT = 39;
+        var KEY_DOWN  = 40; var KEY_UP    = 38;
+        var KEY_W = 87; var KEY_A = 65;
+        var KEY_S = 83; var KEY_D = 68;
+        var KEY_SPACE = 32;
+
+        // State of the keyboard
+        var keysPressed = [];
+        for (var i = 0; i < 256; i++) keysPressed.push(false);
+
+        // Key pressed event handler
+        document.onkeydown = function(e)
+        {
+            keysPressed[e.keyCode] = true;
+        };
+
+        // Key released event handler
+        document.onkeyup = function(e)
+        {
+            keysPressed[e.keyCode] = false;
+        };
+
+        clearCanvas(0, 200, 255);
+    }
+
+</script></head>
+<body onload="main()">
+<canvas id="gameCanvas"></canvas>
+<img id="playerImage" src="player.png">
+</body></html>
+
