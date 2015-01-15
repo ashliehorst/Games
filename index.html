@@ -56,7 +56,54 @@
             keysPressed[e.keyCode] = false;
         };
 
-        clearCanvas(0, 200, 255);
+       // Make a new player (it is a box)
+       //x and y position, width, height, 
+       var player = new box2(200, 200, 100, 100); 
+       var playerSprite = document.getElementById("playerImage");
+       var wall = new box2(400, 400, 25, 300);
+       
+       // clearCanvas(0, 200, 255);
+       function update() 
+       {
+           // Direction the player is going to move
+           var direction = new vec2(0, 0);
+           
+           if (keysPressed[KEY_LEFT ]) dir.x -= 1;
+           if (keysPressed[KEY_RIGHT]) dir.x += 1;
+           if (keysPressed[KEY_DOWN ]) dir.y -= 1;
+           if (keysPressed[KEY_UP   ]) dir.y += 1;
+           direction.normalize();
+           
+           player.move(direction, 3);
+           if (intersects_BoxBox(player, wall)) 
+           {
+               // Gets distance between the two objects
+               var mtv = mtv_BoxBox(player, wall);
+               // If there is a collision, then the player will be just one away (looking like it is hitting it).
+               player.move(mtv, 1);
+           }
+       };
+           
+       
+       function draw() 
+       {
+           // This is the canvas color green
+           clearCanvas(0, 128, 0);
+           
+           // Draw the player yellow
+           //player.draw(context, 255, 255, 0);
+           player.drawImage(context, playerImage);
+           wall.draw(context, 255, 10, 55);
+       };
+   
+       function runGame() 
+       {
+           update();
+           draw();
+       };
+       
+       // called times per second is the interval
+       setInterval(runGame, 1000.0 / 60.0);
     }
 
 </script></head>
